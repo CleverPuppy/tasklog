@@ -1,0 +1,7 @@
+EmailBot/__pychache__/
+tasklog/__pycache__/
+tasklog/migrations
+
+.vscode/
+*.pyc
+db.sqlite3
