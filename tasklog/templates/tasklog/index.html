@@ -1,24 +1,40 @@
-<h1>本周工作计划</h1>
+{% extends "tasklog/base.html" %}
 
-<h2>本周已完成的工作</h2>
-{% if this_week_tasks_done %}
-    <ul>
-        {% for task in this_week_tasks_done %}
-        <li><p><a href="{% url 'tasklog:detail' task.pk %}">{{task.title}}</a> </p></li>
-        {% endfor%}
-    </ul>
-{% else %}
-    <p> no available task </p>
-{% endif %}
+{% block page-header %}
+<h2>本周的工作进程</h2>
+<p>这个页面展示了本周已完成的进程和未完成的进程</p>
+{% endblock %}
 
-<h2>TODO_LIST</h2>
-{% if this_week_tasks_todo %}
-    <ul>
-        {% for task in this_week_tasks_todo %}
-        <li><p> {{task.title}} </p></li>
-        {% endfor%}
-    </ul>
-{% else %}
-    <p> WHAAAAAT YOU DONT HAVE ANY LEFT TODO?? </p>
-    <P> come and add some ! </P>
-{% endif %}
+
+{% block content %}
+<div class="col-md-6">
+        <h3>TODO_LIST</h3>
+        {% if this_week_tasks_todo %}
+            <ul class="list-group">
+                {% for task in this_week_tasks_todo %}
+                <a class="list-group-item" href="{% url 'tasklog:detail' task.pk %}">{{ task.title }}</a>
+                {% endfor%}
+            </ul>
+        {% else %}
+            <p> WHAAAAAT YOU DONT HAVE ANY LEFT TODO?? </p>
+            <P> come and add some ! </P>
+        {% endif %}
+</div>
+<div class="col-md-1"></div>
+<div class="col-md-4">
+        <h3>已完成的工作</h3>
+        {% if this_week_tasks_done %}
+            <ul class="list-group">
+                {% for task in this_week_tasks_done %}
+                <a class="list-group-item" href="{% url 'tasklog:detail' task.pk %}">{{ task.title }}</a>
+                {% endfor%}
+            </ul>
+        {% else %}
+            <p> no available task </p>
+        {% endif %}
+</div>
+
+
+
+
+{% endblock %}
