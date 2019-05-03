@@ -1,6 +1,4 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.template import loader
+from django.shortcuts import render,get_object_or_404
 from .models import Task
 import datetime
 
@@ -12,16 +10,32 @@ def index(request):
     this_week_tasks = Task.objects.filter(date__week=current_week)
     this_week_tasks_done = this_week_tasks.filter(task_type__exact='d')
     this_week_tasks_todo = this_week_tasks.filter(task_type__exact='t')
-    template = loader.get_template('tasklog/index.html')
     context = {
         'this_week_tasks_done':this_week_tasks_done,
         'this_week_tasks_todo':this_week_tasks_todo,
     }
     print(this_week_tasks[0])
-    return HttpResponse(template.render(context,request))
+    return render(request,'tasklog/index.html',context)
+
+def detail(request,pk):
+    #获取某个task的detail信息
+
+    # try:
+    #     task=Task.objects.get(pk=pk)
+    # except Task.DoesNotExist:
+    #     raise Http404('没有指定task!')
+    # return render(request,'tasklog/detail.html',{'task':task})
+
+    # ─── EASIER WAY ─────────────────────────────────────────────────────────────────
+
+    task = get_object_or_404(Task,pk=pk)
+    return render(request,'tasklog/detail.html',{'task':task})
+    # ────────────────────────────────────────────────────────────────────────────────
+
+
 
 def addTask(request):
-    return HttpResponse('YOU ARE ADDING A TASK!')
+    pass
 
 def changeTask(request):
     # 修改todo为done

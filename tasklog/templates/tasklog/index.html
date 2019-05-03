@@ -1,17 +1,17 @@
 <h1>本周工作计划</h1>
 
-<h2>本周已完成的工作</h2>>
+<h2>本周已完成的工作</h2>
 {% if this_week_tasks_done %}
     <ul>
         {% for task in this_week_tasks_done %}
-        <li><p> {{task.title}} </p></li>
+        <li><p><a href="{% url 'tasklog:detail' task.pk %}">{{task.title}}</a> </p></li>
         {% endfor%}
     </ul>
 {% else %}
     <p> no available task </p>
 {% endif %}
 
-<h2>TODO_LIST</h2>>
+<h2>TODO_LIST</h2>
 {% if this_week_tasks_todo %}
     <ul>
         {% for task in this_week_tasks_todo %}
@@ -19,5 +19,7 @@
         {% endfor%}
     </ul>
 {% else %}
-    <p> no available task </p>
+    <p> WHAAAAAT YOU DONT HAVE ANY LEFT TODO?? </p>
+    <P> come and add some ! </P>
+    <a href="{% url 'tasklog:addtask' %}">ADDTASK</a>
 {% endif %}
