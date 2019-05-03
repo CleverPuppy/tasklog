@@ -4,7 +4,7 @@ from . import views
 
 app_name='tasklog'
 urlpatterns = [
-    path('',views.index,name='index'),
-    path('<int:pk>',views.detail,name='detail'),
-    path('addtask/',views.addTask,name='addtask'),
+    path('',views.IndexView.as_view(),name='index'),
+    path('<int:pk>',views.DetailView.as_view(),name='detail'),
+    # path('addtask/',views.addTask,name='addtask'),
 ]

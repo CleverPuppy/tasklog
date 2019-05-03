@@ -1,3 +1,6 @@
-<h3>{{ task.title }}</h3>
-<p>{{ task.content }}</p>
-<label>{{ task.task_type }}</label>
+<h1>{{ task.title }}</h1>
+
+<form>
+<input type="text" name="content" value="{{ task.content }}">
+<input type="text" name="task-type" value="{{ task.task_type }}">
+</form>
