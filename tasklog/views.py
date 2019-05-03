@@ -1,11 +1,12 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404,render
 from django.urls import reverse
 from django.views import generic
 
 import datetime
 
 from .models import Task
+from .forms import TaskForm
 
 class IndexView(generic.ListView):
     template_name = 'tasklog/index.html'
@@ -23,7 +24,18 @@ class DetailView(generic.DeleteView):
     object_name='task'
     template_name = 'tasklog/detail.html'
 
+def add_task(request):
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
 
+        if form.is_valid():
+            # add to datebase
+            pass
+            return HttpResponseRedirect('/result/')
+    else:
+        form = TaskForm()
+    
+    return render(request,'tasklog/addtask.html',{'form':form})
 
 
 
