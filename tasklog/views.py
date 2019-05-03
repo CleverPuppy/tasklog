@@ -30,8 +30,8 @@ def add_task(request):
 
         if form.is_valid():
             # add to datebase
-            pass
-            return HttpResponseRedirect('/result/')
+            form.save()
+            return HttpResponseRedirect('/tasklog/')
     else:
         form = TaskForm()
     
