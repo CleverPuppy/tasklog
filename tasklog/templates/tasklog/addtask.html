@@ -1,9 +1,33 @@
-<h1>添加一个Task</h1>
+{% extends "tasklog/base.html" %}
 
-<form action="{% url 'tasklog:addtask' %}" method="POST">
-{% csrf_token %}
+{% block page-header %}
+<h2>添加一项工作</h2>
+<p>填写下面的表单来添加一项工作</p>
+{% endblock %}
 
-{{ form }}
 
-<input type="submit" value="Submit">
-</form>
+{% block content %}
+<div class="col-md-4"></div>
+<div class="col-md-8">
+    <div class="input-group">
+        <form action="{% url 'tasklog:addtask' %}" method="POST">
+            {% csrf_token %}
+            <span class="input-group-addon">标题</span>
+            <input type="text" name="title" class="form-control" id="id_title" placeholder="我想要做的事是..." maxlength="200"
+                required=''>
+
+            <span class="input-group-addon">正文</span>
+            <input name="content" type="text" class="form-control content" id="id_content" placeholder="要补充的详细情况...">
+
+            <span class="input-group-addon">类型</span>
+            <select name="task_type" class="form-control" id="id_task">
+                <option value="d">已完成</option>
+                <option value="t" selected>待办事项</option>
+            </select>
+            <div class="input-group-btn">
+                <button class="btn btn-lg  btn-block" type="submit" value="Submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

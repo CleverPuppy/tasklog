@@ -4,7 +4,8 @@ from .models import Task
 class TaskForm(ModelForm):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ["title","content","task_type"]
+    
 
 
 
