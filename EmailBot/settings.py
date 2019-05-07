@@ -120,3 +120,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# ─── CONFIG EMAIL SENDING PARAS ─────────────────────────────────────────────────
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '919479850@qq.com'
+EMAIL_HOST_PASSWORD = 'admtmxnbbpjobddg'
+DEFAULT_FROM_EMAIL = '丁鹏辉<919479850@qq.com>'
+DEFAULT_TO_EMAIL = '李老师<220184402@seu.edu.cn>'
+
+# ────────────────────────────────────────────────────────────────────────────────

@@ -1,8 +1,11 @@
+# _*_ coding: utf-8 _*_
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404,render
 from django.urls import reverse
 from django.views import generic
-
+from django.core.mail import send_mail
+from django.conf import settings
+from email.header import Header
 import datetime
 
 from .models import Task
@@ -10,12 +13,12 @@ from .forms import TaskForm
 
 class IndexView(generic.ListView):
     template_name = 'tasklog/index.html'
-    current_week = datetime.datetime.today().isocalendar()[1]
-    queryset = Task.objects.filter(date__week = current_week)
+    current_week = datetime.date.today().isocalendar()[1]
+    queryset = Task.objects.filter(date__week = current_week, task_type__exact='d')
     def get_context_data(self,**kwargs):
         context = super(IndexView,self).get_context_data(**kwargs)
-        context['this_week_tasks_done'] = self.queryset.filter(task_type__exact='d')
-        context['this_week_tasks_todo'] = self.queryset.filter(task_type__exact='t')
+        context['this_week_tasks_done'] = self.queryset
+        context['this_week_tasks_todo'] = Task.objects.filter(task_type__exact='t').order_by('date')
         return context
 
 
@@ -37,8 +40,30 @@ def add_task(request):
     
     return render(request,'tasklog/addtask.html',{'form':form})
 
+def send_email(request):
+    current_week = datetime.date.today().isocalendar()[1]
+    this_week_tasks_done = Task.objects.filter(date__week=current_week,task_type__exact='d')
+    next_week_tasks_todo = Task.objects.filter(task_type__exact='t').order_by('date')[:2]
 
+    message_content = "李老师，现在向您汇报本周工作和下周工作计划：\n\n本周工作：\n"
+    print(type(this_week_tasks_done))
+    i=0
+    for task in this_week_tasks_done:
+        message_content += "    "+ str(i+1) +". " + str(task.title)+"\n"
+        message_content += "        "+str(task.content) +"\n"
+        i+=1
+    
+    message_content += "\n" + "下周工作计划:\n"
+    i=0
+    for task in next_week_tasks_todo:
+        message_content += "    "+ str(i+1) +". " + str(task.title)+"\n"
+        i+=1
 
+    message_content += "\n\n\n丁鹏辉"
+    message_subject = "丁鹏辉_每周汇报_" + str(datetime.date.today())
+    message_from = Header('丁鹏辉','utf-8').encode() + ' <919479850@qq.com>'
+    message_to   = Header('李俊老师','utf-8').encode()+ ' <220184402@seu.edu.cn>'
+    send_mail(message_subject,message_content,message_from,(message_to,))
 
 
 
